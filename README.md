@@ -1,3 +1,51 @@
-# Graphene-lattice-dynamics
+本项目基于**五近邻力常数（5NNFC）模型**与谐近似，使用 MATLAB 脚本计算：
 
-The program is designed to calculate the dispersion curves and heat capacity of graphene and graphene nanoribbons taking into account quantum-size effects. The algorithms used are based on the analysis of crystal lattice oscillations in the harmonic approximation using the model of force constants of the four nearest neighbors. The phonon dispersion is determined from the numerical solution of the eigenvalue problem for the dynamic force matrix, and the heat capacity is determined using Bose-Einstein statistics. The result of the program is a family of dispersion curves and the density of phonon states depending on the oscillation frequency, as well as the heat capacity of graphene and graphene ribbons of different widths depending on the temperature. The program can be used by specialists in solid state physics and materials science to model the properties of phonons in graphene and graphene nanoribbons.
+- 石墨烯的声子色散关系；
+- 石墨烯及石墨烯纳米带（GNR）的声子态密度（DOS）；
+- 温度相关定容热容（基于 Bose-Einstein 统计）。
+
+## 1. 仓库结构与脚本功能
+
+### 石墨烯（2D/3D 色散）
+
+- `Graphene_5NNFC_2D.m`  
+  计算并绘制沿高对称路径 `Γ-M-K-Γ` 的二维色散曲线（6 条分支）。
+
+- `Graphene_5NNFC_3D.m`  
+  在二维倒空间网格上计算 6 个声子模的频率面，并保存为 `data.mat`（变量 `X`, `Y`, `W`），供后续 DOS/群速度分析调用。
+
+### 石墨烯 DOS 与热容
+
+- `Graphene_DOS.m`  
+  读取 `data.mat`，计算每个模态及总 DOS，并进一步计算热容曲线；运行中会输出 `DOS.mat`（`frequency`, `pdf`）。
+
+### 扶手椅型纳米带（AGNR）
+
+- `GNR_A_DR.m`  
+  计算 AGNR 色散关系（默认宽度组由 `Nx` 指定，对应 8/16/32-AGNR）。
+
+- `GNR_A_DOS.m`  
+  计算 AGNR DOS，并与 graphene DOS 对比；输出 `DOS_AGNR_8_16_32.mat`。
+
+### 锯齿型纳米带（ZGNR）
+
+- `GNR_Z_DR.m`  
+  计算 ZGNR 色散关系（默认宽度组由 `Nx` 指定，对应 8/16/32-ZGNR）。
+
+- `GNR_Z_DOS.m`  
+  计算 ZGNR DOS，并与 graphene DOS 对比；输出 `DOS_ZGNR-8-16-32.mat`。
+
+## 2. 可调参数（常用）
+
+你可以直接在脚本顶部修改以下参数做研究扫描：
+
+- `Nx`：纳米带宽度（决定带宽与分支数量）；
+- `Nk` / `dlist`：k 点采样密度（影响分辨率与计算开销）；
+- `bins`：DOS 统计分箱参数；
+- 力常数矩阵（`phi` 或 `f`）：模型核心参数。
+
+## 3. 输出结果说明
+
+- **色散图**：横轴为归一化波矢路径，纵轴为角频率 `ω`（rad/s）；
+- **DOS 图**：以直方图归一化估计为主，可查看各模态贡献及总 DOS；
+- **热容图**：展示各分支和总热容随温度变化，并可与实验点对比。
