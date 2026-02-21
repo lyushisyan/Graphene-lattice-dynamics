@@ -1,51 +1,31 @@
-本项目基于**五近邻力常数（5NNFC）模型**与简谐近似，使用 MATLAB 脚本计算：
+# Graphene-lattice-dynamics
 
-- 石墨烯的声子色散关系；
-- 石墨烯及石墨烯纳米带（GNR）的声子态密度（DOS）；
-- 温度相关定容热容（基于 Bose-Einstein 统计）。
+[English](#english-version) | [中文](#中文版)
 
-## 1. 脚本功能
+## English Version
 
-### 石墨烯（2D/3D 色散）
+Phonon dispersion, DOS, and specific-heat analysis for graphene and graphene nanoribbons (AGNR/ZGNR) using force-constant lattice dynamics models.
 
-- `Graphene_5NNFC_2D.m`  
-  计算并绘制沿高对称路径 `Γ-M-K-Γ` 的二维色散曲线（6 条分支）。
+### Scripts
 
-- `Graphene_5NNFC_3D.m`  
-  在二维倒空间网格上计算 6 个声子模的频率面，并保存为 `data.mat`（变量 `X`, `Y`, `W`），供后续 DOS/群速度分析调用。
+- `Graphene_5NNFC_2D.m`: graphene dispersion along `Gamma-M-K-Gamma`.
+- `Graphene_5NNFC_3D.m`: 2D Brillouin-zone phonon surfaces; saves `data.mat` (`X`, `Y`, `W`).
+- `Graphene_DOS.m`: graphene DOS + heat capacity; loads `data.mat`, saves `DOS.mat` (`frequency`, `pdf`).
+- `GNR_A_DR.m`: AGNR dispersion.
+- `GNR_A_DOS.m`: AGNR DOS and comparison with graphene; saves `DOS_AGNR_8_16_32.mat`.
+- `GNR_Z_DR.m`: ZGNR dispersion.
+- `GNR_Z_DOS.m`: ZGNR DOS and comparison with graphene; saves `DOS_ZGNR-8-16-32.mat`.
 
-### 石墨烯 DOS 与热容
+## 中文版
 
-- `Graphene_DOS.m`  
-  读取 `data.mat`，计算每个模态及总 DOS，并进一步计算热容曲线；运行中会输出 `DOS.mat`（`frequency`, `pdf`）。
+基于力常数晶格动力学模型，计算石墨烯及石墨烯纳米带（AGNR/ZGNR）的声子色散、DOS 与比热。
 
-### 扶手椅型纳米带（AGNR）
+### 脚本说明
 
-- `GNR_A_DR.m`  
-  计算 AGNR 色散关系（默认宽度组由 `Nx` 指定，对应 8/16/32-AGNR）。
-
-- `GNR_A_DOS.m`  
-  计算 AGNR DOS，并与 graphene DOS 对比；输出 `DOS_AGNR_8_16_32.mat`。
-
-### 锯齿型纳米带（ZGNR）
-
-- `GNR_Z_DR.m`  
-  计算 ZGNR 色散关系（默认宽度组由 `Nx` 指定，对应 8/16/32-ZGNR）。
-
-- `GNR_Z_DOS.m`  
-  计算 ZGNR DOS，并与 graphene DOS 对比；输出 `DOS_ZGNR-8-16-32.mat`。
-
-## 2. 可调参数
-
-可以直接在脚本顶部修改以下参数做研究扫描：
-
-- `Nx`：纳米带宽度（决定带宽与分支数量）；
-- `Nk` / `dlist`：k 点采样密度（影响分辨率与计算开销）；
-- `bins`：DOS 统计分箱参数；
-- 力常数矩阵（`phi` 或 `f`）：模型核心参数。
-
-## 3. 输出结果
-
-- **色散图**：横轴为归一化波矢路径，纵轴为角频率 `ω`（rad/s）；
-- **DOS 图**：以直方图归一化估计为主，可查看各模态贡献及总 DOS；
-- **热容图**：展示各分支和总热容随温度变化，并可与实验点对比。
+- `Graphene_5NNFC_2D.m`：石墨烯 `Gamma-M-K-Gamma` 路径色散。
+- `Graphene_5NNFC_3D.m`：二维布里渊区声子频率面；保存 `data.mat`（`X`、`Y`、`W`）。
+- `Graphene_DOS.m`：石墨烯 DOS 与热容；读取 `data.mat`，保存 `DOS.mat`（`frequency`、`pdf`）。
+- `GNR_A_DR.m`：AGNR 色散。
+- `GNR_A_DOS.m`：AGNR DOS 及与石墨烯对比；保存 `DOS_AGNR_8_16_32.mat`。
+- `GNR_Z_DR.m`：ZGNR 色散。
+- `GNR_Z_DOS.m`：ZGNR DOS 及与石墨烯对比；保存 `DOS_ZGNR-8-16-32.mat`。
